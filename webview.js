@@ -1,3 +1,10 @@
+const { ipcRenderer } = require('electron');
+
+const getSidebarColor = function getSidebarColor() {
+	const color = window.getComputedStyle(document.body, null).getPropertyValue('background');
+	ipcRenderer.sendToHost('sidebarColor', color);
+};
+
 module.exports = Franz => {
 	const getMessages = function getMessages() {
 		let indirectElements = document.querySelectorAll('.badge:not(.highlight)');
@@ -10,4 +17,6 @@ module.exports = Franz => {
 		Franz.setBadge(direct, indirect);
 	};
 	Franz.loop(getMessages);
+
+	getSidebarColor();
 };
